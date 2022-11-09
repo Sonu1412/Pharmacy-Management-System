@@ -1,0 +1,341 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+struct node
+{
+
+int ref;
+char name[10];
+int price;
+int quantity;
+
+struct node *next;
+};
+struct node *start = NULL;
+
+void create()
+{
+struct node *temp, *ptr;
+temp = (struct node *)malloc(sizeof(struct node));
+printf("\nEnter the ref Id:\t");
+scanf("%d", &temp->ref);
+printf("\nEnter the Name of medicine:\t");
+scanf("%s", &temp->name);
+printf("\nEnter the Price of medicine:\t");
+scanf("%d", &temp->price);
+printf("\nEnter the quantity of medicine:\t");
+scanf("%d", &temp->quantity);
+temp->next = NULL;
+if (start == NULL)
+{
+start = temp;
+}
+else
+{
+ptr = start;
+while (ptr->next != NULL)
+{
+ptr = ptr->next;
+}
+ptr->next = temp;
+}
+
+} //end of create()
+void display()
+{
+struct node *ptr;
+if (start == NULL)
+{
+printf("\nList is empty:\n");
+return;
+}
+else
+{
+ptr = start;
+printf("\nThe List elements are:\n");
+printf("ref.no \t\tName \t\tPrice \t\tQuantity\n\n");
+while (ptr != NULL)
+{
+printf("%d\t\t", ptr->ref);
+printf("%s\t\t", ptr->name);
+printf("%d\t\t", ptr->price);
+printf("%d\t\t", ptr->quantity);
+printf("\n\n");
+ptr = ptr->next;
+} //end of while
+} //end of else
+} //end of display()
+void edit()
+
+{
+struct node *ptr;
+int r, o;
+if (start == NULL)
+{
+printf("\nList is empty:\n");
+return;
+}
+else
+{
+ptr = start;
+printf("\nEnter ref:\n");
+scanf("%d", &r);
+while (ptr != NULL)
+{
+if (ptr->ref == r)
+{
+
+printf("ref :%d \n 1: EDIT\t 2: OKK",
+ptr->ref);
+printf("\n Enter your choice \t");
+scanf(" %d", &o);
+switch (o)
+{
+case 1:
+printf("\n Update ref \t");
+scanf("%d", &ptr->ref);
+
+break;
+case 2:
+break;
+}
+printf("\n Name: %s\t", ptr->name);
+printf("\n 1: EDIT\t 2: OKK\n");
+printf("\n Enter your choice \t");
+scanf(" %d", &o);
+switch (o)
+{
+case 1:
+printf("\n\n Update Name \t");
+scanf("%s", &ptr->name);
+break;
+case 2:
+break;
+}
+printf("\n Price \t %d", ptr->price);
+printf("\n 1: EDIT\t 2: OKK\n");
+printf("\n Enter your choice \t");
+scanf(" %d", &o);
+switch (o)
+{
+case 1:
+printf("\n Update Price \t");
+scanf("%d", &ptr->price);
+
+break;
+case 2:
+break;
+}
+printf("\n Quantity %d\t", ptr->quantity);
+printf("\n\n 1: EDIT\t 2: OKK\n");
+printf("\n Enter your choice \t");
+scanf(" %d", &o);
+switch (o)
+{
+case 1:
+printf("\n\n Update Quantity\t");
+scanf("%d", &ptr->quantity);
+break;
+case 2:
+break;
+}
+printf("\n");
+}
+ptr = ptr->next;
+break;
+} //end of while
+} //end of else
+} //end of display()
+void search()
+
+{
+struct node *ptr;
+int r, c, i;
+char n[10];
+if (start == NULL)
+{
+printf("\nList is empty:\n");
+return;
+}
+else
+{
+ptr = start;
+printf("\nSearch by:\n 1.Ref\t 2.Name \n");
+printf("\n Enter your choice \t");
+scanf("%d", &c);
+switch (c)
+{
+case 1:
+printf("\n Enter a ref to search \t");
+scanf("%d", &r);
+while (ptr != NULL)
+{
+if (r == ptr->ref)
+{
+printf("ref.no \t\tName \t\tPrice\t\tQuantity \n\n");
+printf("%d\t\t", ptr->ref);
+
+printf("%s\t\t", ptr->name);
+printf("%d\t\t", ptr->price);
+printf("%d\t\t", ptr->quantity);
+printf("\n\n\n");
+return;
+}
+ptr = ptr->next;
+} //end of while
+break;
+case 2:
+printf("\n Enter name to search \t");
+scanf("%s", &n);
+while (ptr != NULL)
+{
+i = strcmp(n, ptr->name);
+if (i == 0)
+{
+printf("ref.no \t\tName \t\tPrice\t\tQuantity \n\n");
+printf("%d\t\t", ptr->ref);
+printf("%s\t\t", ptr->name);
+printf("%d\t\t", ptr->price);
+printf("%d\t\t", ptr->quantity);
+return;
+}
+else{
+
+printf("\nName not found");}
+ptr = ptr->next;
+} //end of while
+break;
+default:
+printf("\n Enter a valid choice");
+break;
+} //end of switch
+}
+}
+void delete_pos()
+{
+int pos = 0;
+int r, c, i;
+char n[10];
+struct node *temp, *ptr, *num;
+if (start == NULL)
+{
+printf("\nThe List is Empty:\n");
+exit(0);
+}
+else
+{
+ptr = start;
+printf("\nSearch by:\n 1.Ref\t 2.Name \n");
+printf("\n Enter your choice \t");
+
+scanf("%d", &c);
+switch (c)
+{
+case 1:
+printf("\n Enter a ref to search \t");
+scanf("%d", &r);
+while (ptr != NULL)
+{
+if (r == ptr->ref)
+{
+break;
+}
+pos++;
+ptr = ptr->next;
+} //end of while
+break;
+case 2:
+printf("\n Enter name to search \t");
+scanf("%s", &n);
+while (ptr != NULL)
+{
+i = strcmp(n, ptr->name);
+if (i == 0)
+{
+break;
+}
+
+pos++;
+ptr = ptr->next;
+} //end of while
+break;
+default:
+printf("\n Enter a valid choice");
+break;
+}
+}
+if (pos == 0)
+{
+ptr = start;
+start = start->next;
+printf("\nThe deleted element is:%d\t", ptr->ref);
+free(ptr);
+}
+else
+{
+ptr = start;
+for (i = 0; i < pos; i++)
+{
+temp = ptr;
+ptr = ptr->next;
+if (ptr == NULL)
+{
+printf("\nPosition not Found:\n");
+
+return;
+}
+}
+temp->next = ptr->next;
+printf("\nThe deleted element is:%d\t", ptr->ref);
+free(ptr);
+
+} //end of else
+} //end of delete_pos()
+int main() //main() starts
+{
+int choice;
+while (1)
+{
+printf("\n***SINGLE LINKED DATA STRUCTURE USED:****\n");
+printf("\n***Pharmacy Management System**\n\n");
+printf("\n MENU \n");
+printf("---------------------------------------\n");
+printf("\n 1.ADD data \n");
+printf("\n 2.Display \n");
+printf("\n 3. EDIT data \n");
+printf("\n 4.Search\n");
+printf("\n 5.Delete Data \n");
+printf("\n 6.Exit \n");
+printf("\n--------------------------------------\n");
+printf("Enter your choice:\t");
+
+scanf("%d", &choice);
+switch (choice)
+{
+case 1:
+create();
+break;
+case 2:
+display();
+break;
+case 3:
+edit();
+break;
+case 4:
+search();
+break;
+case 5:
+delete_pos();
+break;
+case 6:
+exit(0);
+break;
+default:
+printf("\n Wrong Choice:\n");
+break;
+} //end of switch()
+}
+
+//end of main()
+return 0; //end of else
+} //end of delete_pos()
